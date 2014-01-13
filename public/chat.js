@@ -10,7 +10,7 @@ var ChatRoom = Backbone.View.extend({
       if(roomName.replace(/\s/g, '')) {
         this.pushChannel.close();
         var newRoom = new ChatRoom({ name: roomName });
-        $.post("/message", { name: "ChatApp", channel: roomName, message: "User :" + name + " has joined the room!" });
+        $.post("/message", { name: "SubPubChat", channel: roomName, message: "User: " + name + " has joined the room!" });
         newRoom.render();
         this.undelegateEvents();
       }
@@ -27,7 +27,7 @@ var ChatRoom = Backbone.View.extend({
         this.chatRoomData = data;
         var that = this;
         this.roomName = data.name || "main";
-        this.messages = new Backbone.Collection([{ name: "ChatApp", message: "Welcome " + name + " to the Room: " + this.roomName }]);
+        this.messages = new Backbone.Collection([{ name: "SubPubChat", message: "Welcome " + name + " to the Room: " + this.roomName }]);
         this.messages.on("add", function(message) {
           that.render();
         });
