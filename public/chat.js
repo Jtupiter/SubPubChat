@@ -10,14 +10,13 @@ var ChatRoom = Backbone.View.extend({
       if(roomName.replace(/\s/g, '')) {
         this.pushChannel.close();
         var newRoom = new ChatRoom({ name: roomName });
+        $.post("/message", { name: "ChatApp", channel: roomName, message: "User :" + name + " has joined the room!" });
         newRoom.render();
         this.undelegateEvents();
       }
     },
     sendMessage: function() {
       var message = $("#message").val();
-      console.log(message);
-      console.log(this.roomName);
       var that = this;
       if(message.replace(/\s/g, '')) {
         $.post("/message", { name: name, channel: this.roomName, message: message});
