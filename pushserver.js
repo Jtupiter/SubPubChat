@@ -44,7 +44,7 @@ var Channel = function (name, redisSub) {
     this.updateRedisSubscription();
   };
   this.send = function (message) {
-    console.log("Redis message received. Pushing to " + clients.length + " clients!");
+    console.log("Redis message received. Pushing to " + clients.length + " clients! ");
     _.each(clients, function (client) {
       client.write(JSON.stringify({
         type: "message",
