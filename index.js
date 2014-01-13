@@ -17,7 +17,7 @@ app.post('/message', function(req, res){
     redisPub.publish(channel, JSON.stringify({ "name": req.body.name, "message": req.body.message }));
 });
 
-console.log("Starting server on port " + 3000);
-server.listen(3000);
+console.log("Starting server on port " + 3030);
+server.listen(3030);
 
 var pushServer = new PushServer({ server: server });
