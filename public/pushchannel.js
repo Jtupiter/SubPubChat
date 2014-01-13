@@ -153,7 +153,9 @@ var PushChannel = (function() {
       }).fail(function() {
         socket.close();
         socket = false;
-        openSocket(options.socketUrl);
+        if (that.reconnect) {
+          openSocket(options.socketUrl);
+        }
       });
     }
 

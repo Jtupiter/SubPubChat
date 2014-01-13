@@ -9,11 +9,11 @@ var Channel = function (name, redisSub) {
   this.name = name;
   console.log("Creating new channel: " + this.name);
   var clients = [];
-  this.updateRedisSubscription = function(resubscribe) {
-    if (clients.length === 1 || clients.length > 0 && resubscribe) {
+  this.updateRedisSubscription = function(removingClient) {
+    if (clients.length === 1 && !removingClient) {
       console.log("Subscribing to redis channel: " + thisChannel.name);
       redisSub.subscribe(thisChannel.name);
-    } else if (clients.length === 0) {
+    } else if (clients.length === 0 && removingClient) {
       console.log("Channel " + thisChannel.name + " is empty - closing...");
       redisSub.unsubscribe(thisChannel.name);
       thisChannel.emit('close');
@@ -28,7 +28,7 @@ var Channel = function (name, redisSub) {
     }
     var index = clients.indexOf(client);
     clients.splice(index, 1);
-    thisChannel.updateRedisSubscription();
+    thisChannel.updateRedisSubscription(true);
   };
   this.addClient = function (client) {
     if (_.contains(clients, client)) {
@@ -44,7 +44,7 @@ var Channel = function (name, redisSub) {
     this.updateRedisSubscription();
   };
   this.send = function (message) {
-    console.log("Redis message received. Pushing to " + clients.length + " clients! ");
+    console.log("Redis message received. Pushing to " + clients.length + " clients!");
     _.each(clients, function (client) {
       client.write(JSON.stringify({
         type: "message",
@@ -81,6 +81,14 @@ var PushServer = function (options) {
     channel.addClient(client);
     return channel;
   };
+  this.removeClient = function (channelName, client) {
+    var then = this;
+    var channel = this.channels[channelName];
+    if (channel) {
+      channel.removeClient(client);
+    }
+    return channel;
+  };
 
   sockServer.on('connection', function (client) {
     console.log("Connected to Websocket: " + client);
@@ -101,6 +109,15 @@ var PushServer = function (options) {
           type: "pong",
           data: data.id
         }));
+      }
+      else if (data.action === "unsubscribe") {
+        var channel = data.channel;
+        if (!channel) {
+          console.log("UnSubscribe action with no channel do nothing");
+        } else {
+          console.log("Subscribing to channel: " + channel)
+          that.removeClient(channel, client);
+        }
       }
     });
   });

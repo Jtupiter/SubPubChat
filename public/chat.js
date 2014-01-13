@@ -11,10 +11,13 @@ var ChatRoom = Backbone.View.extend({
         this.pushChannel.close();
         var newRoom = new ChatRoom({ name: roomName });
         newRoom.render();
+        this.undelegateEvents();
       }
     },
     sendMessage: function() {
       var message = $("#message").val();
+      console.log(message);
+      console.log(this.roomName);
       var that = this;
       if(message.replace(/\s/g, '')) {
         $.post("/message", { name: name, channel: this.roomName, message: message});
@@ -43,6 +46,8 @@ var ChatRoom = Backbone.View.extend({
         this.$el.append(this.template({ messageData: this.messages.toJSON(), name: name }));
     },
     close: function() {
+      console.log("closing chatroom view")
+      this.undelegateEvents();
       this.remove();
     }
 });
