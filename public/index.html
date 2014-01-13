@@ -1,0 +1,32 @@
+<!DOCYTYPE html !>
+<html>
+<head>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<h1>SubPub Chat</h1>
+<div id="selectName">
+    <label>Please Enter a Name: </label>
+    <input type="text" name="username" id="username">
+    <button class="btn btn-primary" id="enterName">Sign in</button>
+</div>
+<div id="chatRoom">
+</div>
+<script src="libs.js"></script>
+<script src="templates.js"></script>
+<script src="pushchannel.js"></script>
+<script src="chat.js"></script>
+<script>
+    var name;
+    $("#enterName").click(function() {
+        name = $("#username").val();
+        if(name.replace(/\s/g, '')) {
+            $("#selectName").hide();
+            var chatView = new ChatRoom({});
+            chatView.render();
+        }
+    });
+</script>
+</body>
+</html>

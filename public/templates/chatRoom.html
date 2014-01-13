@@ -1,0 +1,14 @@
+<span style="float:right">
+    <label>Switch Rooms:</label>
+    <input type="text" id="roomName" name="roomName">
+    <button class="btn btn-primary switchRooms">Go</button>
+</span>
+<h2 style="display:inline;">Main Room</h2>
+<div id="chatBox">
+    <ul id="messages">
+      <% _.each(messageData, function(data) { %>
+        <li><span class="username"><b><%= data.name %></b></span><b> says: </b><span class="message"><%= data.message %></span></li>
+      <% }); %>
+    </ul>
+</div>
+<input type="text" id="message" name="message"><button class="btn btn-primary" id="sendMessage">Send</button>

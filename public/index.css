@@ -1,0 +1,48 @@
+body {
+    margin: 20px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    border-bottom: 1px dashed #c0c0c0;
+    padding: 10px;
+}
+
+li.error {
+    background: rgba(255, 0, 0, 0.20);
+}
+
+li.success {
+    background: rgba(0, 128, 0, 0.24);
+}
+
+td {
+	width: 200px;
+}
+
+#roomName {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#message {
+	margin-right: 10px;
+	width: 90%;
+}
+
+#sendMessage {
+	width: 9%;
+}
+
+#chatBox {
+	height:600px;
+	border-style: ridge;
+	border-width: 5px;
+	border-color: blue;
+	margin: 25px 0px;
+}
